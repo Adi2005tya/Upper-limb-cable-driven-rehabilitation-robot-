@@ -2,7 +2,8 @@
 
 ## Prototype Demonstration
 
-![Prototype Demo](./Photos%20and%20Videos/Working%20model.gif)
+<img width="450" height="338" alt="Working model " src="https://github.com/user-attachments/assets/9edeb765-9a59-4a0f-b17e-82cfba68c55e" />
+
 
 
 This project involves the development of a cable driven upper limb rehabiliatation device that is based on the concept of Neuroplasticity. It was primarily built as a low cost alternative to conventional rehabilitation devices for patients with stroke in their arms. 
