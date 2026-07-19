@@ -35,6 +35,8 @@ Laser cutting
 
 # System Architecture
 
+## Actuation: 
+
 ESP32
 
 ↓
@@ -52,6 +54,30 @@ Cable Mechanism
 ↓
 
 Puck
+
+## Sensing: 
+
+ESP32
+
+↓
+
+Micro Servo (Scanning)
+
+↓
+
+VL53L1X ToF Sensor
+
+↓
+
+Distance & Angle Measurement
+
+↓
+
+Coordinate Estimation (X, Y)
+
+↓
+
+Puck Localization
 
 
 # Hardware used: 
