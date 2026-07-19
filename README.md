@@ -33,6 +33,27 @@ Laser cutting
 
 <img width="752" height="287" alt="image" src="https://github.com/user-attachments/assets/a446d54e-c769-41fa-b497-ed607d15f9d0" />
 
+# System Architecture
+
+ESP32
+
+↓
+
+Servo Driver
+
+↓
+
+Servos
+
+↓
+
+Cable Mechanism
+
+↓
+
+Puck
+
+
 # Hardware used: 
 
 
