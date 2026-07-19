@@ -1,0 +1,61 @@
+% --- 2-Parameter Optimization (a for motors, b for weights) ---
+clear; clc;
+
+% Constants
+m = 0.5; g = 9.81; T_weight = m * g;
+res = 0.05; % Grid resolution for the 1x1 board
+[X, Y] = meshgrid(0:res:1, 0:res:1);
+
+% Search ranges for offsets (0 to 0.5 meters)
+a_range = 0:0.02:0.5;
+b_range = 0:0.02:0.5;
+
+results = []; % To store valid [a, b, total_width]
+
+for a = a_range
+    for b = b_range
+        % Current Anchor Points
+        C1 = [-a, 1+a]; C2 = [1+a, 1+a]; % Top Motors
+        C3 = [-b, -b];  C4 = [1+b, -b];  % Bottom Weights
+        
+        all_green = true;
+        
+        % Workspace Check
+        for i = 1:size(X,1)
+            for j = 1:size(X,2)
+                P = [X(i,j), Y(i,j)];
+                u1 = (C1-P)/norm(C1-P); u2 = (C2-P)/norm(C2-P);
+                u3 = (C3-P)/norm(C3-P); u4 = (C4-P)/norm(C4-P);
+                
+                W_total = (T_weight * u3) + (T_weight * u4);
+                A = [u1(1), u2(1); u1(2), u2(2)];
+                B = [-W_total(1); -W_total(2)];
+                
+                T = A \ B;
+                if T(1) <= 0 || T(2) <= 0
+                    all_green = false; break;
+                end
+            end
+            if ~all_green, break; end
+        end
+        
+        if all_green
+            % Store valid combination and its total width footprint
+            total_width = 1 + 2*max(a, b);
+            results = [results; a, b, total_width];
+        end
+    end
+end
+
+% Find the result with the smallest footprint
+if ~isempty(results)
+    [min_width, idx] = min(results(:,3));
+    best_a = results(idx, 1);
+    best_b = results(idx, 2);
+    fprintf('Optimal Solution Found!\n');
+    fprintf('Motor Offset (a): %.2f\n', best_a);
+    fprintf('Weight Offset (b): %.2f\n', best_b);
+    fprintf('Total Frame Width: %.2f m\n', min_width);
+else
+    disp('No solution found in this range.');
+end
