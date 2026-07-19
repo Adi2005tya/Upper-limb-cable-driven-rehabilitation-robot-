@@ -21,7 +21,7 @@ ESP32 embedded control
 
 Servo-based localization
 
-# Manufacturing-processes-involved-in-building-the-model:
+# Manufacturing-processes:
 
 3D printing
 
