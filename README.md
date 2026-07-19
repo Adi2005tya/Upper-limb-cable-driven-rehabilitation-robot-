@@ -18,7 +18,7 @@ Solidworks
 Laser cutting 
 
 # Prototype: 
-<img width="857" height="477" alt="image" src="https://github.com/user-attachments/assets/863f8b8c-b5f4-457c-9530-00d2e2cecdd3" />
 
+<img width="797" height="436" alt="image" src="https://github.com/user-attachments/assets/36caf9ac-0283-461a-ad96-34fb77bd911f" />
 
 <img width="616" height="339" alt="image" src="https://github.com/user-attachments/assets/113af480-16f3-4357-8d9e-c694b2a60d70" />
