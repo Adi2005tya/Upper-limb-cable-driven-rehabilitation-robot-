@@ -16,3 +16,6 @@ Solidworks
 3D printing
 
 Laser cutting 
+
+
+<img width="616" height="339" alt="image" src="https://github.com/user-attachments/assets/113af480-16f3-4357-8d9e-c694b2a60d70" />
