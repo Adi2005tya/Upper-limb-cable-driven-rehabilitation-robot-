@@ -1,0 +1,195 @@
+#include <Wire.h>
+#include <VL53L1X.h>
+#include <Adafruit_PWMServoDriver.h>
+
+Adafruit_PWMServoDriver pwm(0x40);
+VL53L1X sensor;
+
+#define SERVO_FREQ 50
+
+// Servo Channels
+#define CABLE1_CH 0
+#define CABLE2_CH 1
+#define MG90_CH   2
+
+#define SERVOMIN 500
+#define SERVOMAX 2500
+
+int theta = 0;
+int scanDir = 1;
+
+bool objectFound = false;
+
+int firstTheta = -1;
+int lastTheta  = -1;
+
+uint16_t minR = 65535;
+
+int angleToPulse(int angle)
+{
+  int us = map(angle, 0, 180, SERVOMIN, SERVOMAX);
+  return (float)us / 1000000.0 * SERVO_FREQ * 4096;
+}
+
+void moveServo(int channel, int angle)
+{
+  pwm.setPWM(channel, 0, angleToPulse(angle));
+}
+
+void setContinuousServo(int channel, int command)
+{
+  pwm.setPWM(channel, 0, angleToPulse(command));
+}
+
+void setup()
+{
+  Serial.begin(115200);
+
+  Wire.begin(17,16);
+
+  pwm.begin();
+  pwm.setOscillatorFrequency(27000000);
+  pwm.setPWMFreq(SERVO_FREQ);
+
+  sensor.setTimeout(500);
+
+  if(!sensor.init())
+  {
+    Serial.println("VL53L1X not detected!");
+    while(1);
+  }
+
+  sensor.setDistanceMode(VL53L1X::Short);
+
+  // Optional ROI reduction
+  sensor.setROISize(4,4);
+
+  sensor.startContinuous(50);
+
+  Serial.println("Starting Scan...");
+}
+
+void loop()
+{
+  //---------------------------------
+  // Reel both cables IN continuously
+  //---------------------------------
+
+  setContinuousServo(CABLE1_CH,85);
+  setContinuousServo(CABLE2_CH,95);
+
+  //---------------------------------
+  // Scan with MG90
+  //---------------------------------
+
+  moveServo(MG90_CH,theta);
+
+  delay(50);
+
+  uint16_t r = sensor.read();
+
+  if(!sensor.timeoutOccurred())
+  {
+    float thetaRad = theta * PI / 180.0;
+
+    float x = r*cos(thetaRad);
+    float y = r*sin(thetaRad);
+
+    bool validPoint =
+      (r < 600) &&
+      (x >= 60 && x <= 500) &&
+      (y >= 60 && y <= 300);
+
+    if(validPoint)
+    {
+      if(!objectFound)
+      {
+        firstTheta = theta;
+        objectFound = true;
+      }
+
+      lastTheta = theta;
+
+      if(r < minR)
+      {
+        minR = r;
+      }
+    }
+  }
+
+
+  theta += scanDir;
+
+  if(theta >= 90)
+  {
+    theta = 90;
+    scanDir = -1;
+
+    if(objectFound)
+    {
+      int centerTheta =
+      (firstTheta + lastTheta)/2;
+
+      float centerThetaRad =
+      centerTheta * PI / 180.0;
+
+      float centerX =
+      minR*cos(centerThetaRad);
+
+      float centerY =
+      minR*sin(centerThetaRad);
+
+      if(centerX >= 60 &&
+         centerX <= 500 &&
+         centerY >= 60 &&
+         centerY <= 300)
+      {
+        Serial.println("----------------------");
+
+        Serial.print("First Theta : ");
+        Serial.println(firstTheta);
+
+        Serial.print("Last Theta  : ");
+        Serial.println(lastTheta);
+
+        Serial.print("Center Theta: ");
+        Serial.println(centerTheta);
+
+        Serial.print("Distance r  : ");
+        Serial.print(minR);
+        Serial.println(" mm");
+
+        Serial.print("X : ");
+        Serial.print(centerX);
+        Serial.println(" mm");
+
+        Serial.print("Y : ");
+        Serial.print(centerY);
+        Serial.println(" mm");
+      }
+      else
+      {
+        Serial.println("Center point outside workspace");
+      }
+    }
+    else
+    {
+      Serial.println("No object detected");
+    }
+  }
+
+
+
+  if(theta <= 0)
+  {
+    theta = 0;
+    scanDir = 1;
+
+    objectFound = false;
+
+    firstTheta = -1;
+    lastTheta  = -1;
+
+    minR = 65535;
+  }
+}
