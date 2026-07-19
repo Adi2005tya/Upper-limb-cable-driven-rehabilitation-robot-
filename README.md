@@ -21,4 +21,5 @@ Laser cutting
 
 <img width="797" height="436" alt="image" src="https://github.com/user-attachments/assets/36caf9ac-0283-461a-ad96-34fb77bd911f" />
 
-<img width="616" height="339" alt="image" src="https://github.com/user-attachments/assets/113af480-16f3-4357-8d9e-c694b2a60d70" />
+<img width="752" height="287" alt="image" src="https://github.com/user-attachments/assets/a446d54e-c769-41fa-b497-ed607d15f9d0" />
+
