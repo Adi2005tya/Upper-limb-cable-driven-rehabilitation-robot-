@@ -33,5 +33,21 @@ Laser cutting
 
 <img width="752" height="287" alt="image" src="https://github.com/user-attachments/assets/a446d54e-c769-41fa-b497-ed607d15f9d0" />
 
+# Hardware used: 
+
+## Hardware Used
+
+| Component | Specification | Quantity |
+|-----------|---------------|:--------:|
+| ESP32 Dev Board | ESP32-WROOM | 1 |
+| Servo Driver | PCA9685 (16-Channel) | 1 |
+| Continuous Rotation Servo | MG996R | 2 |
+| Micro Servo | MG90S | 1 |
+| Time-of-Flight Sensor | VL53L1X | 1 |
+| Buck Converter | LM2596 | 1 |
+| Power Supply | 5V DC SMPS | 1 |
+| Fishing Line | Nylon | 2 |
+| 3D Printed Components | PLA | Multiple |
+
 
 
