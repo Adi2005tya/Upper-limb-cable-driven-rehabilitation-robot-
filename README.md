@@ -4,10 +4,15 @@ This project involves the development of a cable driven upper limb rehabiliatati
 By placing their hand on a gripper pod that is controlled precisely via 2 servo motors their arm movement is guided repeatedely that would help re-develop a connection between the brain and the arm, that was lost during stroke. 
 
 # Tech-stack:
+
 Arduino IDE
-MATLab
+
+MATLAB
+
 Solidworks
 
 # Manufacturing-processes-involved-in-building-the-model:
+
 3D printing
+
 Laser cutting 
