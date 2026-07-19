@@ -35,7 +35,6 @@ Laser cutting
 
 # Hardware used: 
 
-## Hardware Used
 
 | Component | Specification | Quantity |
 |-----------|---------------|:--------:|
